@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Rock Paper Scissors</title>
+</head>
+
+<body>
+</body>
+
+    <script>
+    function npcPlay(){
+        const actions = ["rock", "paper", "scissors"];
+        const index = Math.floor(Math.random() * actions.length);
+        return actions[index];
+    }
+        
+    function rockPaperScissors(player, npc){
+        let phrase = "";
+        let result = "";
+
+        const win_text = ["You win! Rock beats scissors", "You win! Paper beats rock", "You win! Scissors beats paper"];
+        const loss_text = ["You lose! Paper beats rock", "You lose! Scissors beats paper", "You lose! Rock beats scissors"];
+
+
+
+        if (player === npc) {result = "tie"; phrase = "It's a tie!"};
+
+        if (player === "rock" && npc === "scissors") {result = "win"; phrase = win_text[0]};
+        if (player === "rock" && npc === "paper") {result = "loss"; phrase = loss_text[0]};
+
+        if (player === "paper" && npc === "rock") {result = "win"; phrase = win_text[1]};
+        if (player === "paper" && npc === "scissors") {result = "loss"; phrase = loss_text[1]};
+        
+        if (player === "scissors" && npc === "paper") {result = "win"; phrase = win_text[2]};
+        if (player === "scissors" && npc === "rock") {result = "loss"; phrase = loss_text[2]};
+
+        return [result, phrase];
+    }
+
+
+
+
+    function game(){
+        let player = "";
+        let i = 0;
+        let result = "";
+        let phrase = "";
+        let record = [0, 0, 0];
+
+        while (i < 5){
+
+            player = prompt("Rock, Paper, or Scissors?");
+
+            player = player.toLowerCase(); //Convert player selection to lowercase
+
+            if (player == "rock" || player == "paper" || player == "scissors"){
+                [result, phrase] = rockPaperScissors(player, npcPlay());
+                console.log(phrase);
+                (result == "win")? record[0]++ : (result == "loss")? record[1]++ : record[2]++;
+                i++;
+            }
+
+            else {alert("Unrecognized player selection")};
+            }
+        
+        console.log("Your record for the session is " + record[0] + "-" + record[1] + "-" + record[2]);
+    }
+
+    game();
+
+    </script>
+
+</html>
