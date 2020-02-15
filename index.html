@@ -6,9 +6,66 @@
 </head>
 
 <body>
+        
+    <div id="rps">
+        <button id = 'rock'>Rock</button>
+        <button id = 'paper'>Paper</button>
+        <button id = 'scissors'>Scissors</button>
+    </div>
+
+
 </body>
 
     <script>
+
+    function displayVictor(record){
+        let div = document.querySelector('#victor');
+
+        if (div == null) {
+            div = document.createElement('div');
+            div.id = 'victor';
+
+            const body = document.querySelector('body');
+            body.appendChild(div);
+        }
+        let victor = "";
+        (record[1] < record[0])? victor = 'Player': victor = 'Computer';
+
+        div.textContent = `${victor} has won the best of five series.`;
+        return;
+    }
+
+    function displayResult(phrase){
+        let div = document.querySelector('#result');
+
+        if (div == null) {
+            div = document.createElement('div');
+            div.id = 'result';
+
+            const body = document.querySelector('body');
+            body.appendChild(div);
+        }
+
+        div.textContent = phrase;
+        return;
+    }
+
+    function displayScore([wins, losses, ties]){
+        
+        let div = document.querySelector('#score');
+
+        if (div == null) {
+            div = document.createElement('div');
+            div.id = 'score';
+
+            const body = document.querySelector('body');
+            body.appendChild(div);
+        };
+
+        div.textContent = `Current score is ${wins} - ${losses} - ${ties}`;
+        return;
+    };
+
     function npcPlay(){
         const actions = ["rock", "paper", "scissors"];
         const index = Math.floor(Math.random() * actions.length);
@@ -19,8 +76,8 @@
         let phrase = "";
         let result = "";
 
-        const win_text = ["You win! Rock beats scissors", "You win! Paper beats rock", "You win! Scissors beats paper"];
-        const loss_text = ["You lose! Paper beats rock", "You lose! Scissors beats paper", "You lose! Rock beats scissors"];
+        const win_text = ["You win! Rock beats scissors.", "You win! Paper beats rock.", "You win! Scissors beats paper."];
+        const loss_text = ["You lose! Paper beats rock.", "You lose! Scissors beats paper.", "You lose! Rock beats scissors."];
 
 
 
@@ -38,37 +95,37 @@
         return [result, phrase];
     }
 
+buttons = document.querySelectorAll('button')
+buttons.forEach((button) => {
+button.addEventListener('click',(e) => {
 
+    let player = button.id;
+    let result;
+    let phrase;
 
+    [result, phrase] = rockPaperScissors(player, npcPlay());
 
-    function game(){
-        let player = "";
-        let i = 0;
-        let result = "";
-        let phrase = "";
-        let record = [0, 0, 0];
+    (result == "win")? record[0]++ : (result == "loss")? record[1]++ : record[2]++;
 
-        while (i < 5){
+    displayResult(phrase);
+    displayScore(record);
 
-            player = prompt("Rock, Paper, or Scissors?");
+    if (record[0] == 5 || record[1] == 5) {
+        displayVictor(record);
 
-            player = player.toLowerCase(); //Convert player selection to lowercase
+        let divs = document.querySelectorAll('#rps, #score, #result');
 
-            if (player == "rock" || player == "paper" || player == "scissors"){
-                [result, phrase] = rockPaperScissors(player, npcPlay());
-                console.log(phrase);
-                (result == "win")? record[0]++ : (result == "loss")? record[1]++ : record[2]++;
-                i++;
-            }
-
-            else {alert("Unrecognized player selection")};
-            }
-        
-        console.log("Your record for the session is " + record[0] + "-" + record[1] + "-" + record[2]);
+        for (let i = 0; i < divs.length; i++){
+            divs[i].parentNode.removeChild(divs[i]);
+        };
     }
 
-    game();
+    });
 
+});
+
+    let record = [0, 0, 0];
+    
     </script>
 
 </html>
